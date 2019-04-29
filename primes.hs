@@ -33,11 +33,11 @@ mergesort2 :: Int -> [Int] -> [Int]
 mergesort2 len a
   | len <= 1 = a
   | otherwise =
-  let mid = quot len 2 in
-  let (front, back) = splitAt mid a in
-    merge
-      (mergesort2 mid front)
-      (mergesort2 (len - mid) back)
+    let mid = quot len 2 in
+    let (front, back) = splitAt mid a in
+      merge
+        (mergesort2 mid front)
+        (mergesort2 (len - mid) back)
 
 merge :: [Int] -> [Int] -> [Int]
 merge [] bs = bs
@@ -45,3 +45,31 @@ merge as [] = as
 merge (a:as) (b:bs)
   | a < b     = a:(merge as (b:bs))
   | otherwise = b:(merge (a:as) bs)
+
+
+quicksort :: [Int] -> [Int]
+quicksort [] = []
+quicksort [x] = [x]
+quicksort (h:t) =
+  let (lower, upper) = partition h t in
+  let s_lower = quicksort lower in
+  let s_upper = quicksort upper in
+  s_lower ++ h:s_upper
+
+getPivot :: [Int] -> Int
+getPivot lst = head lst
+
+partition :: Int -> [Int] -> ([Int], [Int])
+partition pivot xs =
+  (lower, upper)
+    where
+      lower = lowerPartition pivot xs
+      upper = upperPartition pivot xs
+
+lowerPartition :: Int -> [Int] -> [Int]
+lowerPartition pivot xs =
+  filter (< pivot) xs
+  
+upperPartition :: Int -> [Int] -> [Int]
+upperPartition pivot xs =
+  filter (>= pivot) xs
