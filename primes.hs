@@ -1,4 +1,3 @@
-main = print (firstn 1)
 
 prods :: Int -> [Int]
 prods n = [n*n, (n*n)+n..]
